@@ -34,12 +34,6 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppHeader(
         iconAsset: 'assets/Groupe 9241.svg',
-        onMenuTap: () {
-          print("Burger menu cliqué");
-        },
-        onSearchTap: () {
-          print("Recherche cliquée");
-        },
       ),
       body: _pages[_selectedIndex],
       bottomNavigationBar: CustomBottomNavBar(

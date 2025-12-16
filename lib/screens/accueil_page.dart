@@ -1,94 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+
 import '../widgets/image_carousel.dart';
 import '../widgets/product_carousel.dart';
 import '../widgets/product_card.dart';
 import '../widgets/product_card_special.dart';
+import '../widgets/button_carousel.dart';
+import '../widgets/product_carousel_info_white.dart';
+import '../models/product_carousel_info_white_item.dart';
 
-// Nouveau widget ButtonCarousel
-class ButtonCarouselItem {
-  final String svgAsset;
-  final String label;
-  final VoidCallback onTap;
-
-  ButtonCarouselItem({
-    required this.svgAsset,
-    required this.label,
-    required this.onTap,
-  });
-}
-
-class ButtonCarousel extends StatelessWidget {
-  final List<ButtonCarouselItem> items;
-  final double itemWidth;
-  final double itemHeight;
-  final double spacing;
-
-  const ButtonCarousel({
-    super.key,
-    required this.items,
-    this.itemWidth = 80,
-    this.itemHeight = 100,
-    this.spacing = 12,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: itemHeight,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        itemCount: items.length,
-        separatorBuilder: (_, __) => SizedBox(width: spacing),
-        itemBuilder: (context, index) {
-          final item = items[index];
-          return GestureDetector(
-            onTap: item.onTap,
-            child: Container(
-              width: itemWidth,
-              height: itemHeight,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.grey.shade300),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.3),
-                    blurRadius: 6,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SvgPicture.asset(
-                    item.svgAsset,
-                    width: 32,
-                    height: 32,
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    item.label,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
-
-// Page principale
 class AccueilPage extends StatelessWidget {
+  AccueilPage({super.key});
+
   final List<String> carouselImages = [
     'assets/Bannier nike.png',
     'assets/Bannier nike bleu.png',
@@ -121,123 +43,169 @@ class AccueilPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Items pour le carousel de boutons
     final buttonItems = [
       ButtonCarouselItem(
-        svgAsset: 'assets/icons/car.svg',
+        svgAsset: 'assets/chanel-svgrepo-com.svg',
         label: 'Voiture',
-        onTap: () => print('Voiture cliqué'),
+        onTap: () => debugPrint('Voiture cliqué'),
       ),
       ButtonCarouselItem(
-        svgAsset: 'assets/icons/bike.svg',
+        svgAsset: 'assets/chanel-svgrepo-com.svg',
         label: 'Moto',
-        onTap: () => print('Moto cliqué'),
+        onTap: () => debugPrint('Moto cliqué'),
       ),
       ButtonCarouselItem(
-        svgAsset: 'assets/icons/bus.svg',
+        svgAsset: 'assets/chanel-svgrepo-com.svg',
         label: 'Bus',
-        onTap: () => print('Bus cliqué'),
+        onTap: () => debugPrint('Bus cliqué'),
       ),
       ButtonCarouselItem(
-        svgAsset: 'assets/icons/truck.svg',
+        svgAsset: 'assets/chanel-svgrepo-com.svg',
         label: 'Camion',
-        onTap: () => print('Camion cliqué'),
+        onTap: () => debugPrint('Camion cliqué'),
       ),
     ];
 
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Carousel principal
-          ImageCarousel(
-            height: 220,
-            images: carouselImages,
-          ),
-          const SizedBox(height: 12),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 12),
-            child: Text(
-              "Offre à ne pas manquer",
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-          ),
-          const SizedBox(height: 12),
-          ProductCarousel(
-            products: products,
-            cardWidth: 160,
-            cardHeight: 200,
-          ),
-          const SizedBox(height: 16),
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 12),
-            height: 2,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: Colors.grey.shade300,
-              borderRadius: BorderRadius.circular(1),
-            ),
-          ),
-          const SizedBox(height: 16),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: Row(
-              children: [
-                const Expanded(
-                  child: Text(
-                    "Dernière chance",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+    // Conversion des ProductCard en ProductCarouselInfoWhiteItem avec couleurs paramétrables
+    final List<ProductCarouselInfoWhiteItem> infoWhiteItems =
+        products.map((product) {
+      return ProductCarouselInfoWhiteItem(
+        image: product.image,
+        tagText: product.isSponsored ? "Sponsorisé" : "Offre",
+        tagColor:
+            product.isSponsored ? Colors.pink.shade100 : Colors.blue.shade100,
+        tagTextColor:
+            product.isSponsored ? Colors.pink.shade800 : Colors.blue.shade800,
+        title: product.title,
+        subtitle: product.subtitle,
+        description: "Découvrez cette offre exceptionnelle !",
+        bottomIcon: product.overlayImage,
+      );
+    }).toList();
+
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // ===== Carousel principal =====
+              ImageCarousel(
+                height: 220,
+                images: carouselImages,
+              ),
+
+              const SizedBox(height: 16),
+
+              // ===== Section offres =====
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 12),
+                child: Text(
+                  "Offres à ne pas manquer",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                GestureDetector(
-                  onTap: () => print("Voir toutes les offres cliqué"),
-                  child: Row(
-                    children: const [
-                      Text(
-                        "Voir toutes les offres",
+              ),
+
+              const SizedBox(height: 12),
+
+              // ===== ProductCarouselInfoWhite en haut =====
+              ProductCarousel(products: products),
+
+              const SizedBox(height: 20),
+
+              // ===== Séparateur =====
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 12),
+                height: 1,
+                color: Colors.grey.shade300,
+              ),
+
+              const SizedBox(height: 20),
+
+              // ===== Dernière chance =====
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: Row(
+                  children: [
+                    const Expanded(
+                      child: Text(
+                        "Dernière chance",
                         style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500),
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                      SizedBox(width: 4),
-                      Icon(Icons.arrow_forward_ios,
-                          size: 16, color: Colors.black),
-                    ],
-                  ),
+                    ),
+                    GestureDetector(
+                      onTap: () => debugPrint("Voir toutes les offres cliqué"),
+                      child: Row(
+                        children: const [
+                          Text(
+                            "Voir tout",
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          SizedBox(width: 4),
+                          Icon(Icons.arrow_forward_ios, size: 14),
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+
+              const SizedBox(height: 12),
+
+              // ===== ProductCardSpecial horizontal =====
+              SizedBox(
+                height: 220,
+                child: ListView.separated(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  scrollDirection: Axis.horizontal,
+                  itemCount: 2,
+                  separatorBuilder: (_, __) => const SizedBox(width: 12),
+                  itemBuilder: (context, index) {
+                    return ProductCardSpecial(
+                      image: carouselImages[index],
+                      overlayImage: 'assets/chanel-svgrepo-com.svg',
+                      smallText: 'Promo',
+                      title: index == 0
+                          ? 'Chaussure Nike Air'
+                          : 'Chaussure Nike Bleu',
+                      description: index == 0
+                          ? 'Dernière chance de l\'avoir à ce prix'
+                          : 'Plus que quelques pièces disponibles',
+                      topRightBadgeText: '9 dispo',
+                      badgeColor: Colors.white,
+                    );
+                  },
+                ),
+              ),
+
+              const SizedBox(height: 30),
+
+              // ===== Boutons catégorie =====
+              ButtonCarousel(
+                items: buttonItems,
+                multiSelect: false,
+              ),
+
+              const SizedBox(height: 24),
+
+              // ===== ProductCarouselInfoWhite placé en bas =====
+              ProductCarouselInfoWhite(
+                items: infoWhiteItems,
+                height: 260,
+              ),
+            ],
           ),
-          const SizedBox(height: 12),
-          SizedBox(
-            height: 220,
-            child: ListView.separated(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              scrollDirection: Axis.horizontal,
-              itemCount: 2,
-              separatorBuilder: (_, __) => const SizedBox(width: 12),
-              itemBuilder: (context, index) {
-                return ProductCardSpecial(
-                  image: carouselImages[index],
-                  overlayImage: 'assets/chanel-svgrepo-com.svg',
-                  smallText: 'Promo',
-                  title:
-                      index == 0 ? 'Chaussure Nike Air' : 'Chaussure Nike Bleu',
-                  description: index == 0
-                      ? 'Dernière chance de l\'avoir à ce prix'
-                      : 'Plus que quelques pièces disponibles',
-                  topRightBadgeText: '9 dispo',
-                  badgeColor: Colors.white,
-                );
-              },
-            ),
-          ),
-          const SizedBox(height: 20),
-          // ===== Nouveau carousel de boutons =====
-          ButtonCarousel(items: buttonItems),
-          const SizedBox(height: 20),
-        ],
+        ),
       ),
     );
   }

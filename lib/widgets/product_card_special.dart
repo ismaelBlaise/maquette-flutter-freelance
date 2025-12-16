@@ -4,7 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 class ProductCardSpecial extends StatelessWidget {
   final String image; // Image principale depuis assets
   final String overlayImage; // Image superposée en bas gauche (SVG)
-  final String smallText; // Texte à côté de l'icône
+  final String
+      smallText; // Texte à côté de l'icône (en haut droite de la partie orange)
   final String title; // Titre principal sous l'image
   final String description; // Description en bas
   final String topRightBadgeText; // Badge en haut à droite (ex: "9 disponible")
@@ -40,12 +41,11 @@ class ProductCardSpecial extends StatelessWidget {
           ),
         ],
       ),
-      child: Column(
+      child: Stack(
         children: [
-          Stack(
-            clipBehavior: Clip.none,
+          Column(
             children: [
-              // Image principale
+              // Partie supérieure avec image
               ClipRRect(
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(12),
@@ -58,91 +58,146 @@ class ProductCardSpecial extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              // Badge en haut à droite
-              Positioned(
-                top: 8,
-                right: 8,
+              // Partie inférieure orange
+              Expanded(
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                   decoration: BoxDecoration(
-                    color: badgeColor,
-                    border: Border.all(color: Colors.black26),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Text(
-                    topRightBadgeText,
-                    style: const TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                    color: Colors.yellow.shade300,
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(12),
+                      bottomRight: Radius.circular(12),
                     ),
                   ),
-                ),
-              ),
-              // Icon + petit texte en bas gauche de l'image
-              Positioned(
-                bottom: -14,
-                left: 8,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: 28,
-                      height: 28,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Ligne supérieure: smallText aligné à droite
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 2,
+                            ),
+                            child: Text(
+                              smallText,
+                              style: const TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black87,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(4),
-                        child: SvgPicture.asset(
-                          overlayImage,
-                          fit: BoxFit.contain,
+
+                      const SizedBox(height: 4),
+
+                      // Section texte alignée à l'extrême GAUCHE
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.bottomLeft, // Extrême gauche
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment:
+                                CrossAxisAlignment.start, // Alignement à gauche
+                            children: [
+                              // Titre aligné à l'extrême gauche
+                              Container(
+                                width: double.infinity,
+                                child: Text(
+                                  title,
+                                  style: const TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign:
+                                      TextAlign.left, // Alignement à gauche
+                                ),
+                              ),
+
+                              const SizedBox(height: 4),
+
+                              // Description alignée à l'extrême gauche
+                              Container(
+                                width: double.infinity,
+                                child: Text(
+                                  description,
+                                  style: const TextStyle(
+                                    fontSize: 11,
+                                    color: Colors.black87,
+                                    height: 1.2,
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign:
+                                      TextAlign.left, // Alignement à gauche
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      smallText,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 20),
-          // Titre
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Text(
-              title,
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
+
+          // Badge en haut à droite
+          Positioned(
+            top: 8,
+            right: 8,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+              decoration: BoxDecoration(
+                color: badgeColor,
+                border: Border.all(color: Colors.black26),
+                borderRadius: BorderRadius.circular(8),
               ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
+              child: Text(
+                topRightBadgeText,
+                style: const TextStyle(
+                  fontSize: 10,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
             ),
           ),
-          const SizedBox(height: 4),
-          // Description
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Text(
-              description,
-              style: const TextStyle(
-                fontSize: 12,
-                color: Colors.black87,
+
+          // OverlayImage seule qui se superpose
+          Positioned(
+            left: 12,
+            top: imageHeight - 14, // Positionné à la transition
+            child: Container(
+              width: 28,
+              height: 28,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(4),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 2,
+                    offset: const Offset(0, 1),
+                  ),
+                ],
               ),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
+              child: Padding(
+                padding: const EdgeInsets.all(4),
+                child: SvgPicture.asset(
+                  overlayImage,
+                  fit: BoxFit.contain,
+                ),
+              ),
             ),
           ),
         ],
