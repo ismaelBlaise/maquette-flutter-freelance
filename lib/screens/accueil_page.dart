@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/widgets/share_and_win.dart';
 
+import '../widgets/cashback_card.dart';
 import '../widgets/image_carousel.dart';
+import '../widgets/nav_tab.dart';
 import '../widgets/product_carousel.dart';
 import '../widgets/product_card.dart';
 import '../widgets/product_card_special.dart';
 import '../widgets/button_carousel.dart';
 import '../widgets/product_carousel_info_white.dart';
 import '../models/product_carousel_info_white_item.dart';
+import '../widgets/service_card.dart';
 
 class AccueilPage extends StatelessWidget {
   AccueilPage({super.key});
@@ -40,6 +44,39 @@ class AccueilPage extends StatelessWidget {
       isSponsored: true,
     ),
   ];
+
+  final List<Map<String, dynamic>> cashbacks = [
+    {'image': 'assets/gucci-4.svg', 'percentage': '15%', 'featured': false},
+    {'image': 'assets/nike-6.svg', 'percentage': '13%', 'featured': false},
+    {'image': 'assets/airbnb.svg', 'percentage': '12%', 'featured': false},
+    {'image': 'assets/ASUS_logo.svg', 'percentage': '12%', 'featured': false},
+    {'image': 'assets/sony-2.svg', 'percentage': '10%', 'featured': false},
+    {'image': 'assets/logo-amazon.svg', 'percentage': '9%', 'featured': false},
+  ];
+
+  final List<Map<String, dynamic>> services = [
+    {
+      'image': 'assets/Avis-Logo-1964.png',
+      'name': 'Chez Avis',
+      'description': "Réduction Avis : jusqu'à -20% sur vos locations en France",
+    },
+    {
+      'image': 'assets/Costume noir.png',
+      'name': 'Etienne Services',
+      'description': "Etienne Services : les meilleurs artisans plombiers",
+    },
+    {
+      'image': 'assets/Chambre.png',
+      'name': 'Udemy',
+      'description': "Sélection de cours en ligne gratuits - Django, VBA, Python.",
+    },
+    {
+      'image': 'assets/Télé.png',
+      'name': 'Upweb Agency',
+      'description': "Je vais créer votre site web vitrine WordPress optimisé SEO.",
+    },
+  ];
+
 
   @override
   Widget build(BuildContext context) {
@@ -203,6 +240,130 @@ class AccueilPage extends StatelessWidget {
                 items: infoWhiteItems,
                 height: 260,
               ),
+
+              const SizedBox(height: 24),
+              Container(height: 1,color: Color(0xFFEAE9E9),),
+              const SizedBox(height: 24),
+
+              const Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  NavTab(title: "TOP CASHBACKS", index: 0),
+                  NavTab(title: "TOP CODES PROMO", index: 1),
+                  NavTab(title: "TOP PARTENAIRES", index: 2),
+                ],
+              ),
+
+              const SizedBox(height: 10),
+
+              GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                padding: const EdgeInsets.all(16),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  childAspectRatio: 0.85,
+                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 16,
+                ),
+                itemCount: cashbacks.length,
+                itemBuilder: (context, index) {
+                  return CashbackCard(
+                   image: cashbacks[index]['image'], percentage: cashbacks[index]['percentage'], featured:  cashbacks[index]['featured'],
+                  );
+                },
+              ),
+
+              const SizedBox(height: 10,),
+
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: GestureDetector(
+                  onTap: () => debugPrint("Voir toutes les offres cliqué"),
+                  child: const Row(
+                    children: [
+                      Text(
+                        "Voir toutes les offres",
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      SizedBox(width: 4),
+                      Icon(Icons.arrow_forward_ios, size: 14),
+                    ],
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 10,),
+
+              const SizedBox(height: 24),
+              Container(height: 1,color: Color(0xFFEAE9E9),),
+              const SizedBox(height: 24),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                child: Row(
+                  children: [
+                    const Expanded(
+                      child: Text(
+                        "Service +",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () => debugPrint("Voir toutes les services cliqué"),
+                      child: const Row(
+                        children: [
+                          Text(
+                            "Voir tous les services",
+                            style:  TextStyle(fontWeight: FontWeight.w700, fontSize: 12),
+                          ),
+                          SizedBox(width: 4),
+                          Icon(Icons.arrow_forward_ios, size: 14),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                padding: const EdgeInsets.all(16),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 0.85,
+                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 16,
+                ),
+                itemCount: services.length,
+                itemBuilder: (context, index) {
+                  return ServiceCard(
+                    image: services[index]['image'],
+                    name: services[index]['name'],
+                    description: services[index]['description'],
+                  );
+                },
+              ),
+
+              const SizedBox(height: 14),
+              Container(height: 1,color: Color(0xFFEAE9E9),),
+              const SizedBox(height: 14),
+
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: ShareAndWin(),
+              ),
+
+              const SizedBox(height: 14),
+
+
             ],
           ),
         ),
