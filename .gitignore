@@ -1,0 +1,15 @@
+# Flutter / Dart
+.dart_tool/
+build/
+pubspec.lock
+
+# Android
+android/.gradle/
+android/local.properties
+
+# iOS
+ios/Flutter/ephemeral/
+
+# IDE
+.idea/
+.vscode/
