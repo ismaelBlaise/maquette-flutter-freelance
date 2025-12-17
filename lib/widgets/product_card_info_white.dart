@@ -28,29 +28,31 @@ class ProductCardInfoWhite extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const double cardWidth = 180;
-    const double imageHeight = 110;
+    const double imageHeight = 140;
 
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: cardWidth,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(14),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.25),
-              blurRadius: 6,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
+    return Container(
+      width: cardWidth,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(6),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.08),
+            blurRadius: 6,
+            spreadRadius: 0.5,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: GestureDetector(
+        onTap: onTap,
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
             // 🔹 Image principale
             ClipRRect(
               borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(14),
-                topRight: Radius.circular(14),
+                topLeft: Radius.circular(6),
+                topRight: Radius.circular(6),
               ),
               child: Image.asset(
                 image,
@@ -60,33 +62,42 @@ class ProductCardInfoWhite extends StatelessWidget {
               ),
             ),
 
-            // 🔹 Section infos fond blanc
+            // 🔹 Section infos
             Container(
               width: cardWidth,
-              padding: const EdgeInsets.all(12),
-              decoration: const BoxDecoration(
+              constraints: const BoxConstraints(
+                minHeight: 0,
+                maxHeight: double.infinity,
+              ),
+              padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
+              decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(14),
-                  bottomRight: Radius.circular(14),
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(6),
+                  bottomRight: Radius.circular(6),
+                ),
+                border: Border.all(
+                  color: Colors.grey.shade100,
+                  width: 1,
                 ),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  // 🌸 Petit card rose
+                  // 🌸 Petit tag
                   Container(
                     padding:
-                        const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                     decoration: BoxDecoration(
                       color: tagColor,
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(5),
                     ),
                     child: Text(
                       tagText,
                       style: TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 9,
+                        fontWeight: FontWeight.w700,
                         color: tagTextColor,
                       ),
                     ),
@@ -94,63 +105,75 @@ class ProductCardInfoWhite extends StatelessWidget {
 
                   const SizedBox(height: 6),
 
-                  // 🖤 Gros texte
+                  // 🖤 Titre
                   Text(
                     title,
                     style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w800,
                       color: Colors.black,
+                      height: 1.1,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
 
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 2),
 
-                  // 🤎 Texte moyen
+                  // 🤎 Sous-titre
                   Text(
                     subtitle,
-                    style: const TextStyle(
-                      fontSize: 12,
+                    style: TextStyle(
+                      fontSize: 10.5,
                       fontWeight: FontWeight.w600,
-                      color: Colors.brown,
+                      color: Colors.brown.shade700,
+                      height: 1.1,
                     ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
 
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 6),
 
-                  // 📝 Description et icône en bas
+                  // 📝 Description et icône
                   SizedBox(
-                    height: 40, // hauteur fixe pour que l'icône reste en bas
-                    child: Stack(
+                    height: 32,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        Positioned(
-                          left: 0,
-                          right: 24, // espace pour l'icône
-                          top: 0,
-                          bottom: 0,
+                        // Texte de description
+                        Expanded(
                           child: Text(
                             description,
                             style: TextStyle(
-                              fontSize: 10,
+                              fontSize: 9.5,
                               color: Colors.grey.shade700,
-                              height: 1.3,
+                              height: 1.2,
                             ),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
-                        Positioned(
-                          bottom: 0,
-                          right: 0,
-                          child: SvgPicture.asset(
-                            bottomIcon,
-                            width: 18,
-                            height: 18,
-                            colorFilter: const ColorFilter.mode(
-                              Colors.black87,
-                              BlendMode.srcIn,
+
+                        const SizedBox(width: 4),
+
+                        // Icône
+                        Container(
+                          width: 18,
+                          height: 18,
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade100,
+                            borderRadius: BorderRadius.circular(7),
+                          ),
+                          child: Center(
+                            child: SvgPicture.asset(
+                              bottomIcon,
+                              width: 14,
+                              height: 14,
+                              colorFilter: ColorFilter.mode(
+                                Colors.grey.shade800,
+                                BlendMode.srcIn,
+                              ),
                             ),
                           ),
                         ),
