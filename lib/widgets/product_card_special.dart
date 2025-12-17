@@ -24,7 +24,7 @@ class ProductCardSpecial extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double cardSize = 180;
+    double cardSize = 195;
     double imageHeight = cardSize * 0.6;
 
     return Container(
@@ -32,11 +32,11 @@ class ProductCardSpecial extends StatelessWidget {
       height: cardSize,
       decoration: BoxDecoration(
         color: Colors.yellow.shade300, // fond jaune
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(7),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.3),
-            blurRadius: 6,
+            blurRadius: 7,
             offset: const Offset(0, 4),
           ),
         ],
@@ -48,8 +48,8 @@ class ProductCardSpecial extends StatelessWidget {
               // Partie supérieure avec image
               ClipRRect(
                 borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(12),
-                  topRight: Radius.circular(12),
+                  topLeft: Radius.circular(7),
+                  topRight: Radius.circular(7),
                 ),
                 child: Image.asset(
                   image,
@@ -94,7 +94,7 @@ class ProductCardSpecial extends StatelessWidget {
                         ],
                       ),
 
-                      const SizedBox(height: 4),
+                      const SizedBox(height: 1),
 
                       // Section texte alignée à l'extrême GAUCHE
                       Expanded(

@@ -7,6 +7,7 @@ class ProductCard extends StatelessWidget {
   final String title; // Texte principal noir
   final String subtitle; // Texte orange
   final bool isSponsored; // Sponsorisé ou pas
+  final double cardWidth; // Largeur de la carte
 
   const ProductCard({
     super.key,
@@ -15,41 +16,41 @@ class ProductCard extends StatelessWidget {
     required this.title,
     required this.subtitle,
     this.isSponsored = false,
+    this.cardWidth = 160,
   });
 
   @override
   Widget build(BuildContext context) {
-    double cardSize = 160;
-    double cardHeight = 200;
     return Container(
-      width: cardSize,
-      height: cardHeight,
+      width: cardWidth,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(7),
         color: Colors.grey.shade100, // fond gris clair
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.3),
-            blurRadius: 6,
+            blurRadius: 7,
             offset: const Offset(0, 4),
           ),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min, // Important : s'adapte au contenu
         children: [
           // Image avec image superposée
           Stack(
             children: [
               ClipRRect(
                 borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(12),
-                  topRight: Radius.circular(12),
+                  topLeft: Radius.circular(7),
+                  topRight: Radius.circular(7),
                 ),
                 child: Image.asset(
                   image,
-                  width: cardSize,
-                  height: cardSize * 0.75,
+                  width: cardWidth,
+                  height:
+                      cardWidth * 0.75, // Hauteur proportionnelle à la largeur
                   fit: BoxFit.cover,
                 ),
               ),
@@ -58,19 +59,18 @@ class ProductCard extends StatelessWidget {
                 left: 8,
                 child: Container(
                   width: 28,
-                  height: 28,
+                  height: 26,
                   decoration: BoxDecoration(
-                    color: Colors.white70,
-                    shape: BoxShape.circle,
-                  ),
+                      color: Colors.white,
+                      shape: BoxShape.rectangle,
+                      borderRadius: BorderRadius.circular(7)),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(6), // petit radius
+                    borderRadius: BorderRadius.circular(7),
                     child: Padding(
-                      padding: const EdgeInsets.all(
-                          2), // pour que l'image ne touche pas les bords
+                      padding: const EdgeInsets.all(2),
                       child: SvgPicture.asset(
                         overlayImage,
-                        fit: BoxFit.contain, // <-- l'image reste dans le cadre
+                        fit: BoxFit.contain,
                       ),
                     ),
                   ),
@@ -78,54 +78,61 @@ class ProductCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 8),
+
+          // Contenu textuel
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Text(
-              title,
-              style: const TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Text(
-              subtitle,
-              style: const TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.bold,
-                color: Colors.orange,
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          const Spacer(),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-            child: Row(
+            padding: const EdgeInsets.all(8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                if (isSponsored)
-                  const Icon(
-                    Icons.error_outline,
-                    size: 12,
-                    color: Colors.grey,
-                  ),
-                if (isSponsored) const SizedBox(width: 4),
+                // Titre
                 Text(
-                  isSponsored ? 'Sponsorisé' : '',
+                  title,
                   style: const TextStyle(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.grey,
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
                   ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
+
+                // Sous-titre
+                const SizedBox(height: 4),
+                Text(
+                  subtitle,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.orange,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+
+                // Label "Sponsorisé" (toujours en bas)
+                if (isSponsored) ...[
+                  const SizedBox(height: 6),
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.error_outline,
+                        size: 12,
+                        color: Colors.grey,
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        'Sponsorisé',
+                        style: const TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ],
             ),
           ),

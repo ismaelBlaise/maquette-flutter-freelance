@@ -35,11 +35,11 @@ class ProductCardInfoWhite extends StatelessWidget {
       child: Container(
         width: cardWidth,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(7),
           boxShadow: [
             BoxShadow(
-              color: Colors.grey.withOpacity(0.25),
-              blurRadius: 6,
+              color: Colors.grey.withOpacity(0.3),
+              blurRadius: 7,
               offset: const Offset(0, 4),
             ),
           ],
@@ -49,8 +49,8 @@ class ProductCardInfoWhite extends StatelessWidget {
             // 🔹 Image principale
             ClipRRect(
               borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(14),
-                topRight: Radius.circular(14),
+                topLeft: Radius.circular(7),
+                topRight: Radius.circular(7),
               ),
               child: Image.asset(
                 image,
@@ -67,8 +67,8 @@ class ProductCardInfoWhite extends StatelessWidget {
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(14),
-                  bottomRight: Radius.circular(14),
+                  bottomLeft: Radius.circular(7),
+                  bottomRight: Radius.circular(7),
                 ),
               ),
               child: Column(

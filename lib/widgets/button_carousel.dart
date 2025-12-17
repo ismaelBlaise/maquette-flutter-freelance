@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class ButtonCarouselItem {
-  final String svgAsset;
+  final IconData icon;
   final String label;
   final VoidCallback onTap;
   bool isSelected;
 
   ButtonCarouselItem({
-    required this.svgAsset,
+    required this.icon,
     required this.label,
     required this.onTap,
     this.isSelected = false,
@@ -75,14 +74,10 @@ class _ButtonCarouselState extends State<ButtonCarousel> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SvgPicture.asset(
-                    item.svgAsset,
-                    width: 18,
-                    height: 18,
-                    colorFilter: ColorFilter.mode(
-                      item.isSelected ? Colors.white : Colors.black,
-                      BlendMode.srcIn,
-                    ),
+                  Icon(
+                    item.icon,
+                    size: 18,
+                    color: item.isSelected ? Colors.white : Colors.black,
                   ),
                   const SizedBox(width: 8),
                   Text(

@@ -19,6 +19,7 @@ class AppHeader extends StatefulWidget implements PreferredSizeWidget {
 class _AppHeaderState extends State<AppHeader> {
   bool _isSearching = false;
   final TextEditingController _searchController = TextEditingController();
+  String _selectedLanguage = 'Français'; // Langue par défaut
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +146,7 @@ class _AppHeaderState extends State<AppHeader> {
               child: Material(
                 color: Colors.transparent,
                 child: Container(
-                  width: 350,
+                  width: 400,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(5),
@@ -167,12 +168,89 @@ class _AppHeaderState extends State<AppHeader> {
                           onPressed: () => Navigator.of(context).pop(),
                         ),
                       ),
-                      _menuSection("Accueil"),
-                      _menuSection("Catégories", hasArrow: true),
-                      _menuSection("Offres", hasArrow: true),
-                      _menuSection("Promotions", hasArrow: true),
-                      _menuSection("Aide"),
-                      _menuSection("Langue", hasArrow: true),
+                      _menuSection("Toutes les catégories", hasArrow: true),
+                      _menuSection("Nos offres", hasArrow: true),
+                      _menuSection("Shop"),
+                      _menuSection("Services +"),
+                      _menuSection("Club Membres"),
+                      _menuSection("Help Center"),
+
+                      // Ligne avec drapeau rond à gauche et langue à droite
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 12),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            // Drapeau dans un cercle à gauche
+                            Container(
+                              width: 36,
+                              height: 36,
+                              decoration: BoxDecoration(
+                                color: Colors.blue.shade50,
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: Colors.blue.shade200,
+                                  width: 1.5,
+                                ),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  _getFlagEmoji(_selectedLanguage),
+                                  style: const TextStyle(fontSize: 18),
+                                ),
+                              ),
+                            ),
+
+                            // Langue à droite avec icône dropdown
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 12),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      _selectedLanguage,
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    PopupMenuButton<String>(
+                                      icon: const Icon(
+                                          Icons.arrow_drop_down_outlined,
+                                          size: 25),
+                                      onSelected: (String newValue) {
+                                        setState(() {
+                                          _selectedLanguage = newValue;
+                                        });
+                                        Navigator.of(context).pop();
+                                        _showPopupMenu(context);
+                                      },
+                                      itemBuilder: (BuildContext context) {
+                                        return [
+                                          _buildLanguageMenuItem(
+                                              'Français', '🇫🇷'),
+                                          _buildLanguageMenuItem(
+                                              'English', '🇺🇸'),
+                                          _buildLanguageMenuItem(
+                                              'Español', '🇪🇸'),
+                                          _buildLanguageMenuItem(
+                                              'Deutsch', '🇩🇪'),
+                                          _buildLanguageMenuItem(
+                                              'Italiano', '🇮🇹'),
+                                        ];
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
                       const SizedBox(height: 12),
                       Container(
                         width: double.infinity,
@@ -229,10 +307,46 @@ class _AppHeaderState extends State<AppHeader> {
         title,
         style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
       ),
-      trailing: hasArrow ? const Icon(Icons.arrow_forward_ios, size: 16) : null,
+      trailing: hasArrow
+          ? const Icon(Icons.arrow_drop_down_outlined, size: 25)
+          : null,
       onTap: () {
         debugPrint("$title cliqué");
       },
+    );
+  }
+
+  String _getFlagEmoji(String language) {
+    switch (language) {
+      case 'Français':
+        return '🇫🇷';
+      case 'English':
+        return '🇺🇸';
+      case 'Español':
+        return '🇪🇸';
+      case 'Deutsch':
+        return '🇩🇪';
+      case 'Italiano':
+        return '🇮🇹';
+      default:
+        return '🇫🇷';
+    }
+  }
+
+  PopupMenuItem<String> _buildLanguageMenuItem(String language, String flag) {
+    return PopupMenuItem<String>(
+      value: language,
+      child: Row(
+        children: [
+          Text(flag, style: const TextStyle(fontSize: 18)),
+          const SizedBox(width: 12),
+          Text(language,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+              )),
+        ],
+      ),
     );
   }
 }

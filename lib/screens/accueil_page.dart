@@ -12,74 +12,178 @@ class AccueilPage extends StatelessWidget {
   AccueilPage({super.key});
 
   final List<String> carouselImages = [
+    'assets/Bannier nike rouge.png',
     'assets/Bannier nike.png',
     'assets/Bannier nike bleu.png',
-    'assets/Bannier nike rouge.png',
   ];
 
-  final List<ProductCard> products = [
-    ProductCard(
-      image: 'assets/chassure.png',
-      overlayImage: 'assets/chanel-svgrepo-com.svg',
-      title: 'Révision moteur',
-      subtitle: '120 000 Ar',
-      isSponsored: true,
-    ),
-    ProductCard(
-      image: 'assets/chassure.png',
-      overlayImage: 'assets/chanel-svgrepo-com.svg',
-      title: 'Vidange huile',
-      subtitle: '50 000 Ar',
-      isSponsored: false,
-    ),
-    ProductCard(
-      image: 'assets/chassure.png',
-      overlayImage: 'assets/chanel-svgrepo-com.svg',
-      title: 'Batterie',
-      subtitle: '80 000 Ar',
-      isSponsored: true,
-    ),
+  // ===== DONNÉES PRODUCT CARD =====
+  final List<Map<String, dynamic>> _productCardData = [
+    {
+      'image': 'assets/chassure.png',
+      'overlayImage': 'assets/chanel-svgrepo-com.svg',
+      'title': 'Dès 20€ d\'achat',
+      'subtitle': 'LIVRAISON OFFERTE',
+      'isSponsored': true,
+    },
+    {
+      'image': 'assets/Nike Gris.png',
+      'overlayImage': 'assets/nike-6.svg',
+      'title': '10 € offerts',
+      'subtitle': 'BON D\'ACHAT',
+      'isSponsored': false,
+    },
+    {
+      'image': 'assets/moucassins.png',
+      'overlayImage': 'assets/Tracé 10559.svg',
+      'title': 'Dès 20€ d\'achat',
+      'subtitle': 'LIVRAISON OFFERTE',
+      'isSponsored': true,
+    },
+  ];
+
+  // ===== DONNÉES PRODUCT CARD SPECIAL =====
+  final Color _specialBadgeColor = Colors.white;
+
+  final List<Map<String, dynamic>> _specialCardData1 = [
+    {
+      'image': 'assets/NIKDS.png',
+      'title': 'Chaussures, Jusqu\'à -60% !',
+      'description': 'Des chaussures tendance à prix réduit',
+      'smalltext': 'VENTE FLASH',
+      'overlayImage': 'assets/nike-6.svg',
+      'topRightBadgeText': 'Plus que 8 dispos',
+    },
+    {
+      'image': 'assets/nk.png',
+      'title': 'Cashback X2 Aujourd\'hui',
+      'smalltext': 'HAPPY HOURS',
+      'description': 'Achetez vos chaussures et récupérez',
+      'overlayImage': 'assets/nike-6.svg',
+      'topRightBadgeText': 'Plus que 8 dispos',
+    },
+  ];
+
+  // ===== DONNÉES PRODUCT CAROUSEL INFO WHITE =====
+  final List<Map<String, dynamic>> _infoWhiteItemsData1 = [
+    {
+      'image': 'assets/chassure.png',
+      'overlayImage': 'assets/chanel-svgrepo-com.svg',
+      'title': 'Dès 20€ d\'achat',
+      'subtitle': 'LIVRAISON OFFERTE',
+      'isSponsored': true,
+      'description': 'Profitez de la livraison gratuite dès 20€ d\'achat',
+    },
+    {
+      'image': 'assets/Nike Gris.png',
+      'overlayImage': 'assets/nike-6.svg',
+      'title': '10 € offerts',
+      'subtitle': 'BON D\'ACHAT',
+      'isSponsored': false,
+      'description':
+          'Recevez un bon d\'achat de 10€ sur votre prochaine commande',
+    },
+    {
+      'image': 'assets/moucassins.png',
+      'overlayImage': 'assets/Tracé 10559.svg',
+      'title': 'Dès 20€ d\'achat',
+      'subtitle': 'LIVRAISON OFFERTE',
+      'isSponsored': true,
+      'description': 'Découvrez cette offre exceptionnelle !',
+    },
+  ];
+
+  final List<Map<String, dynamic>> _infoWhiteItemsData2 = [
+    {
+      'image': 'assets/chassure.png', // Remplacez par d'autres images
+      'overlayImage': 'assets/chanel-svgrepo-com.svg',
+      'title': 'Offre Spéciale Été',
+      'subtitle': '-30% SUR TOUT',
+      'isSponsored': false,
+      'description': 'Profitez de 30% de réduction sur toute la collection',
+    },
+    {
+      'image': 'assets/Nike Gris.png', // Remplacez par d'autres images
+      'overlayImage': 'assets/nike-6.svg',
+      'title': 'Pack Famille',
+      'subtitle': 'ÉCONOMISEZ 50€',
+      'isSponsored': true,
+      'description': 'Idéal pour équiper toute la famille à petit prix',
+    },
+    {
+      'image': 'assets/moucassins.png', // Remplacez par d'autres images
+      'overlayImage': 'assets/Tracé 10559.svg',
+      'title': 'Cadeau Offerte',
+      'subtitle': 'AVEC 100€ D\'ACHAT',
+      'isSponsored': false,
+      'description': 'Recevez un cadeau surprise pour 100€ d\'achat',
+    },
   ];
 
   @override
   Widget build(BuildContext context) {
+    // Création des ProductCard à partir des données
+    final List<ProductCard> products = _productCardData.map((data) {
+      return ProductCard(
+        image: data['image'] as String,
+        overlayImage: data['overlayImage'] as String,
+        title: data['title'] as String,
+        subtitle: data['subtitle'] as String,
+        isSponsored: data['isSponsored'] as bool,
+      );
+    }).toList();
+
     final buttonItems = [
       ButtonCarouselItem(
-        svgAsset: 'assets/chanel-svgrepo-com.svg',
-        label: 'Voiture',
-        onTap: () => debugPrint('Voiture cliqué'),
+        icon: Icons.person_outline,
+        label: 'Pour vous',
+        onTap: () => debugPrint('Pour vous cliqué'),
       ),
       ButtonCarouselItem(
-        svgAsset: 'assets/chanel-svgrepo-com.svg',
-        label: 'Moto',
-        onTap: () => debugPrint('Moto cliqué'),
+        icon: Icons.new_releases_outlined,
+        label: 'Nouveau',
+        onTap: () => debugPrint('Nouveau cliqué'),
       ),
       ButtonCarouselItem(
-        svgAsset: 'assets/chanel-svgrepo-com.svg',
-        label: 'Bus',
-        onTap: () => debugPrint('Bus cliqué'),
+        icon: Icons.local_offer_outlined,
+        label: 'Top deals',
+        onTap: () => debugPrint('Top deals cliqué'),
       ),
       ButtonCarouselItem(
-        svgAsset: 'assets/chanel-svgrepo-com.svg',
-        label: 'Camion',
-        onTap: () => debugPrint('Camion cliqué'),
+        icon: Icons.star_border,
+        label: 'En vedettes',
+        onTap: () => debugPrint('En vedettes cliqué'),
       ),
     ];
 
-    // Conversion des ProductCard en ProductCarouselInfoWhiteItem avec couleurs paramétrables
-    final List<ProductCarouselInfoWhiteItem> infoWhiteItems =
-        products.map((product) {
+    // Création des ProductCarouselInfoWhiteItem à partir des données
+    final List<ProductCarouselInfoWhiteItem> infoWhiteItems1 =
+        _infoWhiteItemsData1.map((data) {
+      final isSponsored = data['isSponsored'] as bool;
       return ProductCarouselInfoWhiteItem(
-        image: product.image,
-        tagText: product.isSponsored ? "Sponsorisé" : "Offre",
-        tagColor:
-            product.isSponsored ? Colors.pink.shade100 : Colors.blue.shade100,
-        tagTextColor:
-            product.isSponsored ? Colors.pink.shade800 : Colors.blue.shade800,
-        title: product.title,
-        subtitle: product.subtitle,
-        description: "Découvrez cette offre exceptionnelle !",
-        bottomIcon: product.overlayImage,
+        image: data['image'] as String,
+        tagText: isSponsored ? "Sponsorisé" : "Offre",
+        tagColor: isSponsored ? Colors.pink.shade100 : Colors.blue.shade100,
+        tagTextColor: isSponsored ? Colors.pink.shade800 : Colors.blue.shade800,
+        title: data['title'] as String,
+        subtitle: data['subtitle'] as String,
+        description: data['description'] as String,
+        bottomIcon: data['overlayImage'] as String,
+      );
+    }).toList();
+
+    final List<ProductCarouselInfoWhiteItem> infoWhiteItems2 =
+        _infoWhiteItemsData2.map((data) {
+      final isSponsored = data['isSponsored'] as bool;
+      return ProductCarouselInfoWhiteItem(
+        image: data['image'] as String,
+        tagText: isSponsored ? "Sponsorisé" : "Offre",
+        tagColor: isSponsored ? Colors.pink.shade100 : Colors.blue.shade100,
+        tagTextColor: isSponsored ? Colors.pink.shade800 : Colors.blue.shade800,
+        title: data['title'] as String,
+        subtitle: data['subtitle'] as String,
+        description: data['description'] as String,
+        bottomIcon: data['overlayImage'] as String,
       );
     }).toList();
 
@@ -162,31 +266,33 @@ class AccueilPage extends StatelessWidget {
 
               const SizedBox(height: 12),
 
-              // ===== ProductCardSpecial horizontal =====
+              // ===== PREMIER ProductCardSpecial horizontal =====
               SizedBox(
                 height: 220,
                 child: ListView.separated(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   scrollDirection: Axis.horizontal,
-                  itemCount: 2,
+                  itemCount: _specialCardData1.length,
                   separatorBuilder: (_, __) => const SizedBox(width: 12),
                   itemBuilder: (context, index) {
+                    final cardData = _specialCardData1[index];
                     return ProductCardSpecial(
-                      image: carouselImages[index],
-                      overlayImage: 'assets/chanel-svgrepo-com.svg',
-                      smallText: 'Promo',
-                      title: index == 0
-                          ? 'Chaussure Nike Air'
-                          : 'Chaussure Nike Bleu',
-                      description: index == 0
-                          ? 'Dernière chance de l\'avoir à ce prix'
-                          : 'Plus que quelques pièces disponibles',
-                      topRightBadgeText: '9 dispo',
-                      badgeColor: Colors.white,
+                      image: cardData['image'] as String,
+                      overlayImage: cardData['overlayImage'] as String,
+                      smallText: cardData['smalltext'] as String,
+                      title: cardData['title'] as String,
+                      description: cardData['description'] as String,
+                      topRightBadgeText:
+                          cardData['topRightBadgeText'] as String,
+                      badgeColor: _specialBadgeColor,
                     );
                   },
                 ),
               ),
+
+              const SizedBox(height: 20),
+
+              // ===== DEUXIÈME ProductCardSpecial horizontal =====
 
               const SizedBox(height: 30),
 
@@ -198,11 +304,19 @@ class AccueilPage extends StatelessWidget {
 
               const SizedBox(height: 24),
 
-              // ===== ProductCarouselInfoWhite placé en bas =====
+              // ===== PREMIER ProductCarouselInfoWhite =====
+
+              const SizedBox(height: 12),
               ProductCarouselInfoWhite(
-                items: infoWhiteItems,
+                items: infoWhiteItems1,
                 height: 260,
               ),
+              ProductCarouselInfoWhite(
+                items: infoWhiteItems2,
+                height: 260,
+              ),
+
+              const SizedBox(height: 24),
             ],
           ),
         ),
