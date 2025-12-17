@@ -16,8 +16,6 @@ class AccueilPage extends StatelessWidget {
     'assets/Bannier nike.png',
     'assets/Bannier nike bleu.png',
   ];
-
-  // ===== DONNÉES PRODUCT CARD =====
   final List<Map<String, dynamic>> _productCardData = [
     {
       'image': 'assets/chassure.png',
@@ -67,55 +65,66 @@ class AccueilPage extends StatelessWidget {
   // ===== DONNÉES PRODUCT CAROUSEL INFO WHITE =====
   final List<Map<String, dynamic>> _infoWhiteItemsData1 = [
     {
-      'image': 'assets/chassure.png',
-      'overlayImage': 'assets/chanel-svgrepo-com.svg',
-      'title': 'Dès 20€ d\'achat',
-      'subtitle': 'LIVRAISON OFFERTE',
-      'isSponsored': true,
-      'description': 'Profitez de la livraison gratuite dès 20€ d\'achat',
+      'image': 'assets/IPhone.png',
+      'overlayImage': 'assets/apple-[#173].svg',
+      'title': 'Jusqu’à 7,5 % de cashback',
+      'subtitle': 'À Rembourés',
+      'tagText': 'High-Tech',
+      'tagColor': Colors.pink.shade100,
+      'tagTextColor': Colors.black,
+      'description': 'au lieu de 5%',
     },
     {
-      'image': 'assets/Nike Gris.png',
-      'overlayImage': 'assets/nike-6.svg',
-      'title': '10 € offerts',
-      'subtitle': 'BON D\'ACHAT',
-      'isSponsored': false,
-      'description':
-          'Recevez un bon d\'achat de 10€ sur votre prochaine commande',
+      'image': 'assets/mackbook.png',
+      'overlayImage': 'assets/apple-[#173].svg',
+      'title': 'Cashback jusqu’à 9,5 %',
+      'subtitle': 'À Rembourés',
+      'tagText': 'High-Tech',
+      'tagColor': Colors.pink.shade100,
+      'tagTextColor': Colors.black,
+      'description': 'au lieu de 7%',
     },
     {
-      'image': 'assets/moucassins.png',
+      'image': 'assets/Costume noir.png',
       'overlayImage': 'assets/Tracé 10559.svg',
-      'title': 'Dès 20€ d\'achat',
+      'title': 'Jusqu’à 7,5 % de cashback',
       'subtitle': 'LIVRAISON OFFERTE',
-      'isSponsored': true,
+      'tagText': 'Mode & accesoirs',
+      'tagColor': Colors.yellow.shade300,
+      'tagTextColor': Colors.black,
       'description': 'Découvrez cette offre exceptionnelle !',
     },
   ];
 
   final List<Map<String, dynamic>> _infoWhiteItemsData2 = [
     {
-      'image': 'assets/chassure.png', // Remplacez par d'autres images
-      'overlayImage': 'assets/chanel-svgrepo-com.svg',
-      'title': 'Offre Spéciale Été',
-      'subtitle': '-30% SUR TOUT',
-      'isSponsored': false,
-      'description': 'Profitez de 30% de réduction sur toute la collection',
+      'image': 'assets/Casque.png', // Remplacez par d'autres images
+      'overlayImage': 'assets/jbl-svgrepo-com.svg',
+      'title': 'Cashback 12 % Premium',
+      'subtitle': 'À Rembourés',
+      'tagText': 'High-Tech',
+      'tagColor': Colors.pink.shade100,
+      'tagTextColor': Colors.black,
+      'description': 'au lieu de 9%',
     },
     {
-      'image': 'assets/Nike Gris.png', // Remplacez par d'autres images
-      'overlayImage': 'assets/nike-6.svg',
-      'title': 'Pack Famille',
-      'subtitle': 'ÉCONOMISEZ 50€',
-      'isSponsored': true,
-      'description': 'Idéal pour équiper toute la famille à petit prix',
+      'image': 'assets/Montre.png', // Remplacez par d'autres images
+      'overlayImage': 'assets/apple-[#173].svg',
+      'title': 'Jusqu’à 5,5 % Today',
+      'subtitle': 'À Rembourés',
+      'tagText': 'High-Tech',
+      'tagColor': Colors.pink.shade100,
+      'tagTextColor': Colors.black,
+      'description': 'au lieu de 3%',
     },
     {
-      'image': 'assets/moucassins.png', // Remplacez par d'autres images
+      'image': 'assets/mous.png', // Remplacez par d'autres images
       'overlayImage': 'assets/Tracé 10559.svg',
       'title': 'Cadeau Offerte',
       'subtitle': 'AVEC 100€ D\'ACHAT',
-      'isSponsored': false,
+      'tagText': 'High-Tech',
+      'tagColor': Colors.yellow.shade300,
+      'tagTextColor': Colors.black,
       'description': 'Recevez un cadeau surprise pour 100€ d\'achat',
     },
   ];
@@ -159,12 +168,11 @@ class AccueilPage extends StatelessWidget {
     // Création des ProductCarouselInfoWhiteItem à partir des données
     final List<ProductCarouselInfoWhiteItem> infoWhiteItems1 =
         _infoWhiteItemsData1.map((data) {
-      final isSponsored = data['isSponsored'] as bool;
       return ProductCarouselInfoWhiteItem(
         image: data['image'] as String,
-        tagText: isSponsored ? "Sponsorisé" : "Offre",
-        tagColor: isSponsored ? Colors.pink.shade100 : Colors.blue.shade100,
-        tagTextColor: isSponsored ? Colors.pink.shade800 : Colors.blue.shade800,
+        tagText: data['tagText'],
+        tagColor: data['tagColor'],
+        tagTextColor: data['tagTextColor'],
         title: data['title'] as String,
         subtitle: data['subtitle'] as String,
         description: data['description'] as String,
@@ -174,12 +182,11 @@ class AccueilPage extends StatelessWidget {
 
     final List<ProductCarouselInfoWhiteItem> infoWhiteItems2 =
         _infoWhiteItemsData2.map((data) {
-      final isSponsored = data['isSponsored'] as bool;
       return ProductCarouselInfoWhiteItem(
         image: data['image'] as String,
-        tagText: isSponsored ? "Sponsorisé" : "Offre",
-        tagColor: isSponsored ? Colors.pink.shade100 : Colors.blue.shade100,
-        tagTextColor: isSponsored ? Colors.pink.shade800 : Colors.blue.shade800,
+        tagText: data['tagText'],
+        tagColor: data['tagColor'],
+        tagTextColor: data['tagTextColor'],
         title: data['title'] as String,
         subtitle: data['subtitle'] as String,
         description: data['description'] as String,
@@ -194,7 +201,6 @@ class AccueilPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ===== Carousel principal =====
               ImageCarousel(
                 height: 220,
                 images: carouselImages,
